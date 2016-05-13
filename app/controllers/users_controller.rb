@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :logged_in_user, only: [:edit, :update]
+  before_action :correct_user, only: [:edit, :update]
   
   def show #追加
     @user = User.find(params[:id])
@@ -12,12 +14,10 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       flash[:success] = "Welcome to the Sample App!"
-      redirect_to @user #ここを修正
-    else
-      render 'new'
+      redirect_to @user #ここをd])
     end
   end
-    
+  
   def edit
     @user = User.find(params[:id])
   end
@@ -35,7 +35,14 @@ end
   private
   
   def user_params
-    params.require(:user).permit(:name, :email, :password,
+    params.require(:user).permit(:name, :age, :location, :email, :password,
                                  :password_confirmation)
+  end
+  
+  def correct_user
+    @user = User.find(params[:id])
+    if @user !=current_user
+      redirect_to root_path
+    end
   end
 end
