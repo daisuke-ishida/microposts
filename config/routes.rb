@@ -8,9 +8,14 @@ Rails.application.routes.draw do
   get 'edit' , to: 'users#edit'
   put 'update', to: 'users#update'
   
-   
+  resources :users do
+    member do
+      get :followings, :followers
+    end
+  end
+      
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   resources :microposts
-  resources :relationships, only: [:index, :create, :destroy]
+  resources :relationships, only: [:create, :destroy]
 end

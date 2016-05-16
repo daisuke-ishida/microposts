@@ -4,15 +4,22 @@
           <h1>
              <%= gravatar_for @user %>
              <%= @user.name %></br>
-             <%= @user.age %></br>
-             <%= @user.location %>
+             age: <%= @user.age %></br>
+             location: <%= @user.location %>
           </h1>
-        </section>
+        <span>
+        <%= @user.following_users.count %>
+        <%= link_to "Followings", followings_user_path %>
+        </span>
+        <span>
+        <%= @user.follower_users.count %>
+        <%= link_to "Followers", followers_user_path %>
+        </span>
     </aside>
   <div class="col-md-8">
       <%= render 'follow_form' if logged_in? %>
       <% if @user.microposts.any? %>
-        <h3>Microposts (<%= @user.microposts.count %></h3>
+        <h3>Microposts (<%= @user.microposts.count %>)</h3>
         <ol class="microposts">
             <%= render @microposts %>
         </ol>
